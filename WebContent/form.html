@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<title>Create Employee</title>
+</head>
+<body>
+
+	<form action=index.html id="empdata" method="post">
+
+		<div class="container">
+			<br>
+			<h1 class="text-center">Employee Management System</h1>
+			<br>
+			<div class="row">
+
+				<div class="col-lg-3"></div>
+				<div class="card col-lg-6">
+					<h3 class="card-title">Create Employee</h3>
+					<div class="card-body">
+
+						<div>
+							<input type="text" class="form-control" name="name"
+								placeholder=" Enter name" required>
+						</div>
+
+						<br>
+
+						<div>
+							<input type="number" class="form-control" name="salary"
+								placeholder=" Enter Salary" required>
+						</div>
+
+						<br>
+
+						<div>
+							<input type="number" class="form-control" name="age"
+								placeholder=" Enter age" required>
+						</div>
+
+
+						<br>
+
+						<button type="submit" class="form-control btn btn-warning"
+							value="submit">Submit</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</form>
+
+</body>
+
+<script>
+ 
+	  $('#empdata').submit(function(event) {
+	    event.preventDefault();
+
+	    var formEmp = $(this);
+	    var submitButton = $('input[type=submit]', formEmp);
+
+	    $.ajax({
+	      type: 'POST',
+	      url: "http://dummy.restapiexample.com/api/v1/create",
+	      success: function(result){
+	    	
+	    	  if(result.status == "success") {
+	    		alert(" Successfully created employee with ID:" + result.data.id );
+	    		$("#empdata")[0].reset();
+	    	  }
+	    	  else{
+	    		  alert("Employee creation failed");
+	    	  }
+	      }
+	      
+	    });
+	  });
+
+</script>
+</html>

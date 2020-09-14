@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<title>EmployeeManagement</title>
+</head>
+<body>
+	<div class="container">
+		<br>
+		<h1 class="text-center">Employee Management System</h1>
+		<br>
+		<div class="row">
+			<div class="col-lg-3"></div>
+			<div class="card col-lg-6">
+				<h3 class="card-title">Employee Data</h3>
+				<div class="card-body">
+					<div>
+						<a href="form.html">
+							<button id="create" class="btn btn-success">Create New</button>
+						</a>
+					</div>
+					<br>
+					<table id="emp_table" border=1 class="table">
+
+						<tr>
+							<th>id</th>
+							<th>name</th>
+							<th>salary</th>
+							<th>age</th>
+							<th>options</th>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<br>
+
+	<div id="id_1">
+		<h1 id="output"></h1>
+		<!-- <table id="emp_table" border=1>
+
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>salary</th>
+				<th>age</th>
+				<th>options</th>
+			</tr>
+
+		</table> -->
+	</div>
+
+</body>
+
+<script>
+	//$("#getEmployee").click(function(){
+	$(document).ready(function() {
+						$.ajax({
+									type : "GET",
+									url : "http://dummy.restapiexample.com/api/v1/employees",
+									success : function(result) {
+										
+										$.each(
+														result.data,
+														function(index, value) {
+															
+															var row = "<tr>"
+																	+ " <td>"
+																	+ value.id
+																	+ "</td> "
+																	+ "<td>"
+																	+ value.employee_name
+																	+ "</td>"
+																	+ "<td>"
+																	+ value.employee_salary
+																	+ "</td>"
+																	+ "<td>"
+																	+ value.employee_age
+																	+ "</td>"
+																	+ "<td> <button id='delete' class = 'btn btn-danger' data = "+value.id+"> delete </button> </td> </tr>";
+
+															$(
+																	'#emp_table tr:last')
+																	.after(row);
+
+														});
+										
+									}
+								});
+					});
+
+	$("#emp_table").on('click', '#delete', function() {
+
+		var id = $(this).attr("data");
+		var btn = $(this);
+		$.ajax({
+			type : "DELETE",
+			url : "http://dummy.restapiexample.com/api/v1/delete/" + id,
+			success : function(result) {
+				if (result.status == "success") {
+
+					btn.closest('tr').remove();
+					alert(" Employee deleted successfully");
+				} else {
+					alert("Employee deletion failed");
+				}
+			}
+		});
+	});
+</script>
+</html>
